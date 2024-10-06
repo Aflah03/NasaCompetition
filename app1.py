@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 # Twilio credentials
 TWILIO_ACCOUNT_SID = 'AC9ad2e93b844170b4a4623490d726e9e2'  # Replace with your Twilio Account SID
-TWILIO_AUTH_TOKEN = 'edf7db0d58b44e294b2bdeab8945c13d'      # Replace with your Twilio Auth Token
+TWILIO_AUTH_TOKEN = '771d28c59f9704f40aa4778d6a43b202'      # Replace with your Twilio Auth Token
 TWILIO_PHONE_NUMBER = '+14782161002'  # Replace with your Twilio phone number
 
 # Initialize Twilio client
