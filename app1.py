@@ -207,8 +207,9 @@ def show_users():
 
 if __name__ == "__main__":
     # Start the background thread to check danger zones every 3 hours
+    port= int(os.environ.get("PORT",5000))
     check_thread = threading.Thread(target=periodic_check)
     check_thread.daemon = True  # Daemon thread exits when the main program exits
     check_thread.start()
     
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0',port=port)
