@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NASA HACKATHON</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/community.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body stylesheet= "background-image:url({{ url_for('static', filename='img/two.jpg') }})">
+    <div id="navbar">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='img/logo.jpg') }}" />
+        <h5>KARUTHAL</h5>
+      </div>
+      <ul>
+        <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+        <li><a href="{{ url_for('community') }}">Community</a></li>
+        <li><a href="{{ url_for('finance') }}">Finance</a></li>
+        <li><a href="{{ url_for('alert') }}">Suraksha</a></li>
+        <li><a href="{{ url_for('house') }}">Disaster Alarm</a></li>
+        <li><a href="{{ url_for('insurance') }}">Insurance</a></li>
+        <li><a href="{{ url_for('swapnam') }}">Swapnam</a></li>
+      </ul>
+    </div>
+   
+    <div id="info-box">
+      <h3>About Our Services</h3>
+      <p>The app retrieves the number of individual workers and their locations, contacting them if they are in a disaster-prone region.</p>
+      <a href="#more-info">Learn More</a>
+    </div>
+    
+    
+  
+  </body>
+  <script src="{{ url_for('static', filename='login.js') }}"></script>
+</html>
+
+
+
+
+
+
+
+

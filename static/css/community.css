@@ -1,0 +1,135 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'spartan', sans-serif;
+}
+/* Make the body fill the entire viewport */
+body {
+  height: 100vh; /* Full viewport height */
+  margin: 0; /* Remove default margin */
+  background-image: url("../img/one.jpg");
+  background-size: cover; /* Ensure the image covers the whole body */
+  background-position: center; /* Center the background image */
+}
+ /* Style for the box on the left */
+    /* Style for the box on the left */
+    #info-box {
+      background-color: rgba(255, 255, 255, 0.8); /* White background with 80% opacity */
+      border: 2px solid rgba(0, 0, 0, 0.2); /* Slightly transparent border */
+      border-radius: 0; /* Sharp edges */
+      padding: 20px; /* Add padding */
+      margin: 100px auto; /* Center with top margin */
+      max-width: 800px; /* Max width for better layout */
+      text-align: center; /* Center text */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      margin-top:160px;
+      margin-bottom:100px;
+  }
+
+  #info-box h3 {
+      font-size: 2rem; /* Larger font for the title */
+      color: #333; /* Dark text color */
+      margin-bottom: 15px; /* Space below the title */
+  }
+  
+  #info-box p {
+      font-size: 1.2rem; /* Slightly larger font size for readability */
+      color: #555; /* Darker gray for paragraph text */
+      margin-bottom: 20px; /* Space below the paragraph */
+  }
+  
+  #info-box a {
+      text-decoration: none; /* Remove underline */
+      color: #ff5f5f; /* Button color */
+      font-weight: bold; /* Bold text */
+      border: 2px solid #ff5f5f; /* Button border */
+      padding: 10px 20px; /* Padding for button */
+      border-radius: 5px; /* Slightly rounded corners */
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+  }
+  
+  #info-box a:hover {
+      background-color: #ff5f5f; /* Change background on hover */
+      color: #fff; /* Change text color on hover */
+  }
+  
+  
+/* Navbar Styles */
+#navbar {
+  position: fixed; /* Fix navbar to the top */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure it's above other elements */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  /* Semi-transparent background */
+}
+
+#navbar .logo{
+  display: flex;
+}
+#navbar .logo h5 {
+  font-size: 40px;
+  margin-left: 20px;
+  color: black;
+  font-family: "Arima", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400; /* or bold, normal, etc. */
+  font-style: normal;
+  margin-top:20px;
+}
+
+#navbar .logo img {
+  width: 90px;
+}
+
+#navbar ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#navbar ul li {
+  margin-left: 20px;
+}
+
+#navbar ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 25px;
+  padding: 10px;
+  position: relative;
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+#navbar ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transform: scaleX(0); /* Start with no underline */
+  transform-origin: right; /* Animate from the right side */
+  transition: transform 0.3s ease; /* Smooth underline effect */
+}
+
+#navbar ul li a:hover {
+  color: rgb(21, 250, 21); /* Change color on hover */
+}
+
+#navbar ul li a:hover::after {
+  transform: scaleX(1); /* Animate underline */
+  transform-origin: left; /* Animate to the left */
+}
+
+#navbar ul li a.active {
+    color: rgb(21, 250, 21);; 
+    text-decoration: underline; 
+}

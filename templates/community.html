@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="navbar">
+        
+        <div class="logo">
+         <img src="{{ url_for('static', filename='img/logo.jpg') }}">
+         <h5>KARUTHAL</h5>
+        </div>
+ 
+         <ul>
+             
+             <li><a href="{{ url_for('index') }}">Home</a></li>
+             <li><a href="{{ url_for('community') }}" class="active">community</a></li>
+             <li><a href="{{ url_for('finance') }}">finance</a></li>
+             <li><a href="{{ url_for('alert') }}">suraksha</a></li>
+             <li><a href="{{ url_for('user_info') }}">Disaster Alarm</a></li>
+             <li><a href="{{ url_for('insurance') }}">insurance</a></li>
+        <li><a href="{{ url_for('swapnam') }}">swapnam</a></li>
+             
+         </ul>
+     </div>
+     <header>
+        <h1>Community Events And  Expert's Corner</h1>
+    </header>
+    
+   
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color:  #e9f5e9; 
+            }
+    
+            header {
+                background-color:  #e9f5e9; ;
+                color: white;
+                text-align: center;
+                padding: 20px 0;
+                position: relative;
+            }
+            header h1{
+                color:green;
+            }
+    
+            /* Chatbox styling */
+            #chatBox {
+                display: none;
+                position: fixed;
+                top: 220px;
+                right: 10px;
+                width: 300px;
+                height: 410px;
+                background-color: white;
+                border: 2px solid #28a745;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                z-index: 9999;
+            }
+            #chatBox input[type="text"] {
+                margin-left:30px;
+                margin-top:10px;
+            }
+    
+            #chatBoxHeader {
+                background-color: #28a745;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                border-bottom: 2px solid #28a745;
+            }
+    
+            #chatMessages {
+                padding: 10px;
+                overflow-y: auto;
+                height: 300px;
+            }
+    
+            #chatInputContainer {
+                padding: 10px;
+                border-top: 1px solid #ddd;
+            }
+    
+            #chatInput {
+                width: 80%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+    
+            #sendButton {
+                padding: 10px;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            /* Orange Button for Chat */
+            #chatButton {
+                 background: black;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                position: relative;
+                top: 20px;
+                left: 20px;
+                z-index: 1000;
+                
+                
+            }
+    
+            #chatButton:hover {
+                background-color: black;
+            }
+    
+            .container {
+                max-width: 1200px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            .event, .opinion {
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 10px 0;
+                background-color: #f9f9f9;
+                cursor: pointer;
+            }
+    
+            .event h3, .opinion h3 {
+                margin: 0 0 10px;
+                color: #333;
+            }
+    
+            .event p, .opinion p {
+                margin: 5px 0;
+                color: #555;
+            }
+    
+            .button {
+                background-color: #28a745;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 10px 0;
+                
+            }
+            #chatButton{
+              width:200px;
+              height:50px;
+              margin-bottom:30px;
+              text-align:center;
+            }
+    
+            .button:hover {
+                background-color: #218838;
+            }
+            
+
+
+            footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height:300px;
+    width:auto;
+    
+
+}
+
+footer .col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    
+}
+
+footer .col h4{
+    font-size:25px;
+    margin-left:20px;
+}
+footer .col a{
+  font-size:20px;
+}
+
+footer .logo {
+    margin-bottom: 30px;
+
+}
+
+footer h4 {
+    font-size: 10px;
+    padding-bottom: 20px;
+    margin-right:90px;
+
+}
+
+footer p {
+    font-size: 20px;
+    margin: 0 0 8px 0;
+    margin-left:18px;
+    
+}
+
+footer a {
+    font-size: 25px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 10px;
+    margin-left:20px;
+}
+
+footer .follow {
+    margin-top: 20px;
+
+}
+footer .install h3{
+    margin-right:145px;
+    font-size:25px;
+}
+ footer .install h1{
+    font-size:20px;
+    margin-right:20px;
+    margin-top:20px;
+}
+
+footer .follow i {
+    color: #465b52;
+    padding-right: 4px;
+    cursor: pointer;
+    font-size:30px;
+    margin-right:10px;
+
+}
+
+footer .install .row img {
+    border: 1px solid #088178;
+    border-radius: 6px;
+    height:50px;
+    margin-bottom:5px;
+    margin-right:30px;
+
+}
+
+footer .install img {
+    height:100px;
+    margin: 20px 0 20px 0;
+ 
+}
+
+footer .follow i:hover,
+footer a:hover {
+    color: #088178;
+
+}
+
+footer .copyright {
+    width: 100%;
+    text-align: center;
+
+}
+footer .install p{
+    font-size:30px;
+}
+
+        </style>
+    </head>
+    <body>
+    
+   
+    <!-- Chatbox HTML -->
+    <div id="chatBox">
+        <div id="chatBoxHeader">Chat</div>
+        <div id="chatMessages"></div>
+        <div id="chatInputContainer">
+            <input type="text" id="chatInput" placeholder="Type a message..." />
+            <button id="sendButton" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <!-- Orange Chat Button on Top Left -->
+    <button id="chatButton" onclick="toggleChat()">Chat with Someone</button>
+    
+    <div class="container" id="eventContainer"></div>
+    
+    <!-- Experts' Corner Section -->
+    <div class="container" id="expertsCorner">
+        <h2>Experts' Corner</h2>
+        <div class="opinion">
+            <h3>Dr. Emily Green</h3>
+            <p>“Climate change is accelerating, and the impacts on agriculture and health cannot be underestimated.”</p>
+        </div>
+        <div class="opinion">
+            <h3>Dr. Alan Moore</h3>
+            <p>“Sustainable farming practices are critical to ensuring food security for future generations.”</p>
+        </div>
+        <div class="opinion">
+            <h3>Prof. Michael Lee</h3>
+            <p>“We must prepare for the consequences of extreme weather patterns affecting our ecosystems.”</p>
+        </div>
+    </div>
+    
+    <footer class="section-p1">
+        <div class="col">
+         
+          <h4>Contact</h4>
+          <p>
+            <strong>Address: </strong>562 wellington Road , street , san Francisco
+          </p>
+          <p><strong>Phone: </strong>+01 2222 365 / (+91) 01 2345 6789</p>
+          <p><strong>Hours: </strong>10:00 - 18.00, Mon - Sat</p>
+          <div class="follow">
+            <h4>Follow us</h4>
+            <div class="icon">
+              <i class="fa-brands fa-facebook"></i>
+              <i class="fa-brands fa-youtube"></i>
+              <i class="fa-brands fa-twitter"></i>
+              <i class="fa-brands fa-linkedin"></i>
+             
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h4>About</h4>
+          <a href="#">About us</a>
+          
+          <a href="#">privacy policy</a>
+          <a href="#">Terms & conditions</a>
+          <a href="#">Contact us</a>
+        </div>
+        <div class="col">
+          <h4>My Account</h4>
+          <a href="#">Sign In</a>
+          
+          <a href="#">Help</a>
+        </div>
+        <div class="install">
+          <h3>Install App</h3>
+          <h1>From Store or google play</h1>
+          <div class="row">
+            <img src="{{ url_for('static', filename='img/app.jpg') }}" />
+          </br>
+            <img src="{{ url_for('static', filename='img/play.jpg') }}" />
+          </div>
+         
+      </footer>
+    
+    <script>
+        // Event data
+        const events = [
+            {
+                title: "How to use the App?",
+                place: "Community Center, Main Hall",
+                time: "October 15, 2024, 10:00 AM - 4:00 PM",
+                speaker: "Dr. Jane Smith, Health Expert",
+                description: "Learn how to navigate the app effectively.",
+            },
+            {
+                title: "Town Hall Meeting",
+                place: "Town Hall, Conference Room A",
+                time: "October 20, 2024, 6:00 PM - 8:00 PM",
+                speaker: "Mayor John Doe",
+                description: "Discuss community issues with local government.",
+            },
+            {
+                title: "Environmental Awareness Workshop",
+                place: "Green Park, Community Pavilion",
+                time: "October 25, 2024, 2:00 PM - 5:00 PM",
+                speaker: "Mr. Robert Green, Environmental Activist",
+                description: "Workshops on sustainable practices.",
+            },
+            {
+                title: "Community Health Fair",
+                place: "Online (Zoom)",
+                time: "October 30, 2024, 3:00 PM - 4:00 PM",
+                speaker: "Tech Support Team",
+                description: "Get health tips and resources.",
+            }
+        ];
+    
+        // Display events on page load
+        function displayEvents() {
+            const container = document.getElementById('eventContainer');
+            events.forEach((event, index) => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'event';
+                eventDiv.onclick = () => {
+                    displayEventDetails(index);
+                };
+                eventDiv.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p><strong>Place:</strong> ${event.place}</p>
+                    <p><strong>Time:</strong> ${event.time}</p>
+                    <p><strong>Speaker:</strong> ${event.speaker}</p>
+                `;
+                container.appendChild(eventDiv);
+            });
+        }
+    
+        // Display individual event details
+        function displayEventDetails(index) {
+            const event = events[index];
+            const container = document.body;
+            container.innerHTML = `
+                <header>
+                    <h1>${event.title}</h1>
+                </header>
+                <div class="container">
+                    <p><strong>Place:</strong> ${event.place}</p>
+                    <p><strong>Time:</strong> ${event.time}</p>
+                    <p><strong>Speaker:</strong> ${event.speaker}</p>
+                    <p><strong>Description:</strong> ${event.description}</p>
+                    <button class="button" onclick="registerForEvent()">Register</button>
+                    <button class="button" onclick="setReminder()">Set Reminder</button>
+                    <button class="button" onclick="goBack()">Back to Events</button>
+                </div>
+            `;
+        }
+    
+        function registerForEvent() {
+            alert("You have registered for this event!");
+        }
+    
+        function setReminder() {
+            alert("A reminder has been set for this event!");
+        }
+    
+        function goBack() {
+            location.reload();
+        }
+    
+        // Toggle chatbox visibility
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
+        }
+    
+        // Simulate a conversation between Person A and Person B
+        let isPersonA = true;
+    
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+    
+            if (chatInput.value.trim() === '') return;
+    
+            // Display message from current person
+            const message = document.createElement('div');
+            message.textContent = isPersonA ? `Person A: ${chatInput.value}` : `Person B: ${chatInput.value}`;
+            chatMessages.appendChild(message);
+    
+            // Clear input
+            chatInput.value = '';
+    
+            // Scroll chat to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+            // Switch between Person A and Person B
+            isPersonA = !isPersonA;
+        }
+    
+        // Initialize the page
+        window.onload = () => {
+            displayEvents();
+        };
+    </script>
+    
+ 
+    
+    
+    
+
+</body>
+</html>
+
+

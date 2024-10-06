@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title >Community Financial Assistance</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body style="background-color: #e9f5e9;">
+  <div id="navbar">
+        
+    <div class="logo">
+     <img src="{{ url_for('static', filename='img/logo.jpg') }}">
+     <h5>KARUTHAL</h5>
+    </div>
+
+     <ul>
+         
+         <li><a href="{{ url_for('index') }}">Home</a></li>
+         <li><a href="{{ url_for('community') }}">community</a></li>
+         <li><a href="{{ url_for('finance') }}" class="active">finance</a></li>
+         <li><a href="{{ url_for('alert') }}">suraksha</a></li>
+         <li><a href="{{ url_for('house') }}">Disaster Alarm</a></li>
+         <li><a href="{{ url_for('insurance') }}">insurance</a></li>
+    <li><a href="{{ url_for('swapnam') }}">swapnam</a></li>
+         
+     </ul>
+ </div>
+   
+  <header>
+    <h1 style="color:green">Community Financial Assistance</h1>
+    <div class="notification-bell" onclick="goToNotifications()"></div>
+  </header>
+  
+
+  <div class="container">
+
+    <section id="apply" class="form-section">
+      <h2>Apply for Financial Assistance</h2>
+      <form id="assistanceForm">
+        <input type="text" id="fullName" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="accountNumber" placeholder="Verified Account Number" required>
+        <input type="text" id="phoneNumber" placeholder="Verified Phone Number" required>
+        <textarea id="requestDetails" placeholder="Describe your financial needs" rows="5" required></textarea>
+  
+        <label for="captcha">What is 3 + 5?</label>
+        <input type="text" id="captcha" placeholder="Your Answer" required>
+        <input type="hidden" id="captchaAnswer" value="8">
+  
+        <button type="submit">Submit Application</button>
+      </form>
+    </section>
+
+    <section id="plans" class="plans-section" style="display:none;">
+      <h2>Financial Plans for You</h2>
+      <p id="welcomeMessage"></p>
+      <div id="plansList">
+        </div>
+      <button class="back-button" onclick="goBack()">Back</button>
+    </section>
+
+    <section id="notifications" class="notifications-section" style="display:none;">
+      <h2>Notifications</h2>
+      <p>No notifications available.</p>
+      <button class="back-button" onclick="goBackToHome()">Back</button>
+    </section>
+
+    <section id="guidelines" class="guidelines-section" style="display:none;">
+      <h2>Plan Guidelines</h2>
+      <div id="guidelineContent"></div>
+      <button class="back-button" onclick="goBackToPlans()">Back to Plans</button>
+    </section>
+
+  </div>
+  
+  <footer class="section-p1">
+    <div class="col">
+     
+      <h4>Contact</h4>
+      <p>
+        <strong>Address: </strong>562 wellington Road , street , san Francisco
+      </p>
+      <p><strong>Phone: </strong>+01 2222 365 / (+91) 01 2345 6789</p>
+      <p><strong>Hours: </strong>10:00 - 18.00, Mon - Sat</p>
+      <div class="follow">
+        <h4>Follow us</h4>
+        <div class="icon">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-youtube"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-linkedin"></i>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>About</h4>
+      <a href="#">About us</a>
+      
+      <a href="#">privacy policy</a>
+      <a href="#">Terms & conditions</a>
+      <a href="#">Contact us</a>
+    </div>
+    <div class="col">
+      <h4>My Account</h4>
+      <a href="#">Sign In</a>
+      
+      <a href="#">Help</a>
+    </div>
+    <div class="install">
+      <h3>Install App</h3>
+      <h1>From Store or google play</h1>
+      <div class="row">
+        <img src="{{ url_for('static', filename='img/app.jpg') }}" />
+      </br>
+        <img src="{{ url_for('static', filename='img/play.jpg') }}" />
+      </div>
+     
+  </footer>
+
+ 
+
+  <script src="script.js"></script>
+</body>
+</html>

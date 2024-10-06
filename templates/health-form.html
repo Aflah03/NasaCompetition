@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+
+        .back-button {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .back-button button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button button:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            background-color: #003a75;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Health Insurance Application Form</h1>
+</header>
+
+<div class="form-container">
+    <form id="insurance-form" action="#" method="post">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="contact" placeholder="Your Contact Number" required>
+        <input type="text" name="address" placeholder="Your Address" required>
+        <input type="text" name="health_condition" placeholder="Current Health Condition" required>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="back-button">
+    <button onclick="goBack()">Back to Previous Page</button>
+</div>
+
+<footer>
+    <p>&copy; 2024 Insurance Company. All rights reserved.</p>
+</footer>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    document.getElementById('insurance-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Your health insurance form has been submitted successfully!');
+        window.history.back();
+    });
+</script>
+
+</body>
+</html>

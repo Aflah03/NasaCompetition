@@ -1,0 +1,199 @@
+{
+    "@context": "http://pmmpublisher.pps.eosdis.nasa.gov/vocab",
+    "@language": "en",
+    "@id": "urn:ojo:opensearch:q=global_landslide_nowcast&lat=38&lon=100&limit=1&startTime=20240929&endTime=20240929",
+    "displayName": "NASA GSFC Product Publisher",
+    "@type": "as:Collection",
+    "url": "http://pmmpublisher.pps.eosdis.nasa.gov/opensearch?q=global_landslide_nowcast&lat=38&lon=100&limit=1&startTime=20240929&endTime=20240929",
+    "mediaType": "application/activity+json",
+    "totalItems": 1,
+    "items": [
+        {
+            "@id": "global_landslide_nowcast_20240929",
+            "@type": "geoss:global_landslide_nowcast",
+            "displayName": "global_landslide_nowcast_20240929",
+            "image": [
+                {
+                    "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2024/273/global_landslide_nowcast_20240929_thn.jpg",
+                    "mediaType": "image/jpeg",
+                    "rel": "browse"
+                }
+            ],
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -180,
+                            60
+                        ],
+                        [
+                            -180,
+                            -60
+                        ],
+                        [
+                            180,
+                            -60
+                        ],
+                        [
+                            180,
+                            60
+                        ],
+                        [
+                            -180,
+                            60
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "source": {
+                    "@label": "source",
+                    "@value": "NASA GSFC Dalia Kirschbaum model"
+                },
+                "url": {
+                    "@label": "url",
+                    "@value": "http://pmmpublisher.pps.eosdis.nasa.gov"
+                },
+                "sensor": {
+                    "@label": "sensor",
+                    "@value": "N/A"
+                },
+                "date": {
+                    "@label": "date",
+                    "@value": "20240929"
+                },
+                "resolution": {
+                    "@label": "resolution",
+                    "@value": "1km"
+                }
+            },
+            "action": [
+                {
+                    "@type": "ojo:browse",
+                    "displayName": "browse",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "browse",
+                            "mediaType": "html",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/browse/Global/2024/273/global_landslide_nowcast_20240929",
+                            "displayName": "browse"
+                        }
+                    ]
+                },
+                {
+                    "@type": "ojo:download",
+                    "displayName": "download",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "global_landslide_nowcast_20240929.topojson.gz",
+                            "mediaType": "application/x-gzip",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2024/273/global_landslide_nowcast_20240929.topojson.gz",
+                            "displayName": "topojson.gz"
+                        },
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "global_landslide_nowcast_20240929.geojson",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2024/273/global_landslide_nowcast_20240929.geojson",
+                            "displayName": "geojson"
+                        }
+                    ]
+                },
+                {
+                    "@type": "ojo:map",
+                    "displayName": "map",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "legend",
+                            "mediaType": "text/html",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/mapinfo/global_landslide_nowcast/legend?product=global_landslide_nowcast",
+                            "displayName": "legend"
+                        },
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "style",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/mapinfo/global_landslide_nowcast/style?product=global_landslide_nowcast",
+                            "displayName": "style"
+                        },
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "credits",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/mapinfo/global_landslide_nowcast/credits",
+                            "displayName": "credits"
+                        }
+                    ]
+                },
+                {
+                    "@type": "ojo:subset",
+                    "displayName": "subset",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "subset",
+                            "mediaType": "application/vnd.geo+json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/subset/Global/2024/273/global_landslide_nowcast_20240929?bbox={LLlon},{LLlat},{URLon},{URLat}",
+                            "displayName": "subset"
+                        }
+                    ]
+                },
+                {
+                    "@type": "ojo:metadata",
+                    "displayName": "metadata",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "metadata",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/metadata/Global/2024/273/global_landslide_nowcast",
+                            "displayName": "metadata"
+                        }
+                    ]
+                },
+                {
+                    "@type": "ojo:export",
+                    "displayName": "export",
+                    "using": [
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "geojson",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/export/Global/2024/273/global_landslide_nowcast_20240929.geojson",
+                            "displayName": "geojson"
+                        },
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "arcjson",
+                            "mediaType": "application/json",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/export/Global/2024/273/global_landslide_nowcast_20240929.arcjson",
+                            "displayName": "arcjson"
+                        },
+                        {
+                            "@type": "as:HttpRequest",
+                            "method": "GET",
+                            "@id": "shp.tgz",
+                            "mediaType": "application/zip",
+                            "url": "https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/export/Global/2024/273/global_landslide_nowcast_20240929.shp.tgz",
+                            "displayName": "shp.tgz"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

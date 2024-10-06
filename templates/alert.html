@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="navbar">
+        
+        <div class="logo">
+         <img src="{{ url_for('static', filename='img/logo.jpg') }}">
+         <h5>KARUTHAL</h5>
+        </div>
+ 
+         <ul>
+             
+             <li><a href="{{ url_for('index') }}">Home</a></li>
+             <li><a href="{{ url_for('community') }}">community</a></li>
+             <li><a href="{{ url_for('finance') }}">finance</a></li>
+             <li><a href="{{ url_for('alert') }}" class="active">suraksha</a></li>
+             <li><a href="{{ url_for('user_info') }}" >Disaster Alarm</a></li>
+             <li><a href="{{ url_for('insurance') }}">insurance</a></li>
+        <li><a href="{{ url_for('swapnam') }}">swapnam</a></li>
+             
+         </ul>
+     </div>
+      
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:#e9f5e9; 
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+        }
+
+        select {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 80%;
+            max-width: 400px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        select:hover, select:focus {
+            border-color: #2980b9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #map {
+            height: 600px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-container {
+            width: 80%;
+            max-width: 550px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+       
+
+        .alert {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .data-container strong {
+            color: #2980b9;
+            text-align:center;
+            margin-left:130px;
+        }
+      .data-container  span{
+        margin-left:120px;
+        text-align: center;
+      }
+        /* Transitions for smoother interactions */
+        select, .data-container {
+            transition: all 0.3s ease;
+        }
+
+        /* Hover effects for interaction */
+        select:hover, .data-container:hover {
+            transform: translateY(-5px);
+        }
+        
+/* Footer Styles */
+footer {
+    background-color: #003a75;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top:200px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    flex-wrap: wrap;
+}
+
+.footer-logo h2 {
+    color: #fff;
+    font-size: 24px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.footer-links ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 50px;
+}
+
+.footer-links ul li a:hover {
+    color: #ddd;
+}
+
+.footer-social a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+}
+
+.footer-social a:hover {
+    color: #ddd;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+}
+    </style>
+</head>
+<body>
+    <h1>SURAKSHA</h1>
+    
+    <select id="plantationSelect" onchange="showSelectedPlantation()">
+        <option value="">my work</option>
+        <option value="Munnar Tea Estate">Munnar Tea Estate</option>
+        <option value="Wayanad Tea Plantation">Wayanad Tea Plantation</option>
+        <option value="Idukki Tea Plantation">Idukki Tea Plantation</option>
+        <option value="Periyar Tea Estate">Periyar Tea Estate</option>
+        <option value="Devikulam Tea Estate">Devikulam Tea Estate</option>
+        <option value="Peermade Tea Plantation">Peermade Tea Plantation</option>
+        <option value="Chikani Tea Estate">Chikani Tea Estate</option>
+        <option value="Attappadi Tea Plantation">Attappadi Tea Plantation</option>
+    </select>
+    
+    <div id="map"></div>
+    <div class="data-container" id="results">
+        <strong class="">Weather Data & Risk Assessment</strong> <br>
+        <span id="coords">Select a tea estate to get weather data.</span>
+    </div>
+    
+    <footer class="section-p1">
+        <div class="col">
+         
+          <h4>Contact</h4>
+          <p>
+            <strong>Address: </strong>562 wellington Road , street , san Francisco
+          </p>
+          <p><strong>Phone: </strong>+01 2222 365 / (+91) 01 2345 6789</p>
+          <p><strong>Hours: </strong>10:00 - 18.00, Mon - Sat</p>
+          <div class="follow">
+            <h4>Follow us</h4>
+            <div class="icon">
+              <i class="fa-brands fa-facebook"></i>
+              <i class="fa-brands fa-youtube"></i>
+              <i class="fa-brands fa-twitter"></i>
+              <i class="fa-brands fa-linkedin"></i>
+             
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h4>About</h4>
+          <a href="#">About us</a>
+          
+          <a href="#">privacy policy</a>
+          <a href="#">Terms & conditions</a>
+          <a href="#">Contact us</a>
+        </div>
+        <div class="col">
+          <h4>My Account</h4>
+          <a href="#">Sign In</a>
+          
+          <a href="#">Help</a>
+        </div>
+        <div class="install">
+          <h3>Install App</h3>
+          <h1 style="color:white">From Store or google play</h1>
+          <div class="row">
+            <img src="{{ url_for('static', filename='img/app.jpg') }}" />
+          </br>
+            <img src="{{ url_for('static', filename='img/play.jpg') }}" />
+          </div>
+         
+      </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([10.8505, 76.2711], 7); // Center on Kerala
+
+        // Load OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Tea plantation coordinates (sample data)
+        const plantations = [
+            { name: "Munnar Tea Estate", lat: 10.0889, lon: 77.0595 },
+            { name: "Wayanad Tea Plantation", lat: 11.6854, lon: 76.1320 },
+            { name: "Idukki Tea Plantation", lat: 9.8497, lon: 76.9844 },
+            { name: "Periyar Tea Estate", lat: 9.4570, lon: 77.1544 },
+            { name: "Devikulam Tea Estate", lat: 10.0661, lon: 77.0824 },
+            { name: "Peermade Tea Plantation", lat: 9.5717, lon: 77.1814 },
+            { name: "Chikani Tea Estate", lat: 10.1212, lon: 77.0737 },
+            { name: "Attappadi Tea Plantation", lat: 10.7353, lon: 76.6617 }
+        ];
+
+        // Utility function to get yesterday's date in YYYYMMDD format
+        function getYesterdayDate() {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yyyy = yesterday.getFullYear();
+            const mm = String(yesterday.getMonth() + 1).padStart(2, '0');
+            const dd = String(yesterday.getDate()).padStart(2, '0');
+            return `${yyyy-1}${mm}${dd}`;
+        }
+
+        // NASA API fetching function
+        async function getNasaWeatherData(lat, lon) {
+            const nasaStartDate = getYesterdayDate();  // Get yesterday's date
+            const nasaEndDate = nasaStartDate;          // Use the same date for end date
+
+            // NASA POWER API URL
+            const nasaApiUrl = `https://power.larc.nasa.gov/api/temporal/daily/point?start=${nasaStartDate}&end=${nasaEndDate}&latitude=${lat}&longitude=${lon}&parameters=T2M,PRECTOTCORR,ALLSKY_SFC_SW_DWN,QV2M,WS2M&community=AG&format=JSON`;
+
+            try {
+                const nasaResponse = await fetch(nasaApiUrl);
+                if (!nasaResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const nasaData = await nasaResponse.json();
+                const weather = nasaData.properties.parameter;
+
+                // Check if data for the requested date is available
+                if (weather.T2M[nasaStartDate] === undefined) {
+                    throw new Error('No data available for yesterday. Please try again later.');
+                }
+
+                const temp = weather.T2M[nasaStartDate]; // Temperature in °C
+                const rainfall = weather.PRECTOTCORR[nasaStartDate]; // Rainfall in mm
+                const solarRadiation = weather.ALLSKY_SFC_SW_DWN[nasaStartDate]; // Solar radiation in kWh/m²/day
+                const humidity = weather.QV2M[nasaStartDate]; // Humidity in g/kg
+                const windSpeed = weather.WS2M[nasaStartDate]; // Wind speed in m/s
+
+                // Logic for risk assessment
+                const landslideRisk = (rainfall > 50) ? "High" : "Low";
+                const heatWaveRisk = (temp > 40 || solarRadiation > 25) ? "Heat Wave Warning" : "No Heat Wave";
+
+                return { temp, rainfall, solarRadiation, humidity, windSpeed, landslideRisk, heatWaveRisk };
+            } catch (error) {
+                console.error('Error fetching NASA data:', error);
+                return { error: error.message };
+            }
+        }
+
+        // Threshold values for weather data
+        const tempThreshold = 40;  // Temperature above 40°C is alarming
+        const rainfallThreshold = 50;  // Rainfall above 50mm is alarming
+
+        // Function to show the selected plantation and fetch NASA weather data
+        async function showSelectedPlantation() {
+            var selectedPlantation = document.getElementById('plantationSelect').value;
+            var plantationData = plantations.find(p => p.name === selectedPlantation);
+
+            if (plantationData) {
+                // Clear previous markers
+                map.eachLayer(layer => {
+                    if (layer instanceof L.Marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                // Add marker for the selected plantation
+                var marker = L.marker([plantationData.lat, plantationData.lon]).addTo(map);
+
+                // Fetch NASA weather data
+                const weatherData = await getNasaWeatherData(plantationData.lat, plantationData.lon);
+
+                // Check if there's an error
+                if (weatherData.error) {
+                    document.getElementById('coords').innerHTML = `<strong>Error:</strong> ${weatherData.error}`;
+                    return;
+                }
+
+                // Display weather data and risk assessments
+                displayWeatherOnMap(weatherData, marker, plantationData.name);
+            } else {
+                document.getElementById('coords').innerHTML = "Please select a valid tea estate.";
+            }
+        }
+
+        // Function to display the weather and risk results with alarming data in red
+        function displayWeatherOnMap(weatherData, marker, plantationName) {
+            let alertMessage = `<strong>${plantationName}</strong><br>`;
+
+            // Check if temperature is above threshold
+            if (weatherData.temp > tempThreshold) {
+                alertMessage += `<span class="alert">Temperature: ${weatherData.temp} °C</span><br>`;
+            } else {
+                alertMessage += `Temperature: ${weatherData.temp} °C<br>`;
+            }
+
+            // Check if rainfall is above threshold
+            if (weatherData.rainfall > rainfallThreshold) {
+                alertMessage += `<span class="alert">Rainfall: ${weatherData.rainfall} mm</span><br>`;
+            } else {
+                alertMessage += `Rainfall: ${weatherData.rainfall} mm<br>`;
+            }
+
+            // Display the rest of the data normally
+            alertMessage += `Humidity: ${weatherData.humidity} g/kg<br>`;
+            alertMessage += `Wind Speed: ${weatherData.windSpeed} m/s<br>`;
+            alertMessage += `Landslide Risk: ${weatherData.landslideRisk}<br>`;
+            alertMessage += `Heat Wave Risk: ${weatherData.heatWaveRisk}`;
+
+            // Bind the formatted alert message to the marker popup
+            marker.bindPopup(alertMessage).openPopup();
+            map.setView(marker.getLatLng(), 10);  // Zoom in on the selected estate
+        }
+    </script>
+
+</body>
+</html>
