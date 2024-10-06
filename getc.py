@@ -2,25 +2,20 @@ import requests
 import json
 from datetime import datetime, timedelta
 from shapely.geometry import shape, box  # For geometric operations
+from shapely.validation import explain_validity
 
 def get_landslide_nowcast_data():
     """
     Fetch the global landslide nowcast data from NASA's PMM Publisher API for the specified date.
     """
-    # Calculate the date for one week ago
     one_week_ago = datetime.now() - timedelta(weeks=1)
     date_str = one_week_ago.strftime('%Y%m%d')  # Format: YYYYMMDD
 
-    # Define the request URL
     url = f"https://pmmpublisher.pps.eosdis.nasa.gov/opensearch?q=global_landslide_nowcast&lat=38&lon=100&limit=1&startTime={date_str}&endTime={date_str}"
 
-    # Make the request to the API
     response = requests.get(url)
-
     if response.status_code == 200:
-        # Parse the JSON response
-        json_data = response.json()
-        return json_data
+        return response.json()
     else:
         print(f"Error fetching data: {response.status_code} - {response.text}")
         return None
@@ -30,30 +25,29 @@ def download_geojson(geojson_url, filename):
     Download the GeoJSON file from the provided URL and save it locally.
     """
     try:
-        # Make the GET request to download the GeoJSON
         geojson_response = requests.get(geojson_url)
-
         if geojson_response.status_code == 200:
-            # Write the content to a file
             with open(filename, 'w') as file:
                 json.dump(geojson_response.json(), file, indent=4)
             print(f"GeoJSON file downloaded and saved as: {filename}")
         else:
             print(f"Error downloading GeoJSON: {geojson_response.status_code} - {geojson_response.text}")
-
     except Exception as e:
         print(f"An error occurred while downloading the GeoJSON: {e}")
 
-def save_json_to_file(json_data, filename):
+def validate_geojson_geometry(geojson_file):
     """
-    Save the JSON data to a file.
+    Validate all geometries in the GeoJSON file and return whether they are valid.
     """
-    try:
-        with open(filename, 'w') as file:
-            json.dump(json_data, file, indent=4)
-        print(f"JSON data saved to file: {filename}")
-    except Exception as e:
-        print(f"An error occurred while saving JSON data to file: {e}")
+    with open(geojson_file) as f:
+        geojson_data = json.load(f)
+
+    for feature in geojson_data['features']:
+        geom = shape(feature['geometry'])
+        if not geom.is_valid:
+            print(f"Invalid geometry found: {explain_validity(geom)}")
+            return False  # If any geometry is invalid, return False
+    return True  # All geometries are valid
 
 def crop_geojson_to_south_india(geojson_file):
     """
@@ -64,12 +58,10 @@ def crop_geojson_to_south_india(geojson_file):
     with open(geojson_file) as f:
         geojson_data = json.load(f)
 
-    # Prepare a new GeoJSON structure for cropped data
     cropped_features = []
-
     for feature in geojson_data['features']:
         geom = shape(feature['geometry'])
-        if south_india_bbox.intersects(geom):  # Check if the feature intersects with the bounding box
+        if south_india_bbox.intersects(geom):
             cropped_features.append(feature)
 
     cropped_geojson = {
@@ -79,18 +71,25 @@ def crop_geojson_to_south_india(geojson_file):
 
     return cropped_geojson
 
-def fetch_and_process_data():
+def fetch_and_process_data(retries=3):
     """
-    Fetch and process landslide data.
+    Fetch and process landslide data with retries if invalid geometry is encountered.
     """
-    # Get the landslide nowcast data
-    landslide_data = get_landslide_nowcast_data()
-    
-    # Print and save the full JSON response to a file
-    if landslide_data:
-        save_json_to_file(landslide_data, "landslide_nowcast_data.json")  # Save the JSON data to a file
+    attempt = 0
+    while attempt < retries:
+        attempt += 1
+        print(f"Attempt {attempt} to fetch and process data")
 
-        # Find the GeoJSON URL from the "export" actions
+        # Step 1: Fetch the landslide nowcast data
+        landslide_data = get_landslide_nowcast_data()
+
+        if not landslide_data:
+            print(f"Failed to fetch landslide data on attempt {attempt}. Retrying...")
+            continue
+
+        save_json_to_file(landslide_data, "landslide_nowcast_data.json")
+
+        # Step 2: Extract the GeoJSON URL
         geojson_url = None
         for item in landslide_data.get("items", []):
             for action in item.get("action", []):
@@ -104,17 +103,38 @@ def fetch_and_process_data():
             if geojson_url:
                 break
 
-        # Download the GeoJSON if the URL was found
-        if geojson_url:
-            download_geojson(geojson_url, "landslide_nowcast.geojson")
+        if not geojson_url:
+            print("GeoJSON URL not found. Retrying...")
+            continue
 
-            # Crop the GeoJSON to South India
-            cropped_geojson = crop_geojson_to_south_india("landslide_nowcast.geojson")
+        # Step 3: Download the GeoJSON file
+        download_geojson(geojson_url, "landslide_nowcast.geojson")
 
-            # Save the cropped GeoJSON to a file (optional)
-            save_json_to_file(cropped_geojson, "cropped_landslide_nowcast.geojson")
-        else:
-            print("GeoJSON URL not found in the response.")
+        # Step 4: Validate the GeoJSON file
+        if not validate_geojson_geometry("landslide_nowcast.geojson"):
+            print(f"Invalid geometry found on attempt {attempt}. Retrying...")
+            continue  # Retry by fetching the data again
+
+        # Step 5: Crop the GeoJSON to South India and save
+        cropped_geojson = crop_geojson_to_south_india("landslide_nowcast.geojson")
+        save_json_to_file(cropped_geojson, "cropped_landslide_nowcast.geojson")
+
+        print("Data processed successfully.")
+        return  # Exit the function after successful completion
+
+    print("All attempts failed due to invalid geometries or other errors.")
+
+def save_json_to_file(json_data, filename):
+    """
+    Save the JSON data to a file.
+    """
+    try:
+        with open(filename, 'w') as file:
+            json.dump(json_data, file, indent=4)
+        print(f"JSON data saved to file: {filename}")
+    except Exception as e:
+        print(f"An error occurred while saving JSON data to file: {e}")
 
 if __name__ == "__main__":
     fetch_and_process_data()
+
