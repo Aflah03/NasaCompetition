@@ -3,7 +3,7 @@ import os
 import json
 import threading
 import time
-from gety import fetch_and_process_data  # Import the function from gety.py
+from getc import fetch_and_process_data  # Import the function from gety.py
 from shapely.geometry import shape, Point
 from twilio.rest import Client  # Import Twilio Client
 
